@@ -1,0 +1,36 @@
+reset;	                        # Limpar as variaveis
+model modelo_PRFVE.mod;   # Chamar o modelo
+data modelo_PRFVE.dat;	# Chamar os dados do modelo
+option solver cplex;         # Chamar o solver
+
+#option solver cplexamp;
+option cplex_options "time=2000000 threads=0 nodefile=3 workfilelim=1200\
+                      mipdisplay=2 mipinterval=1000 parallelmode=-1 mipgap=0.00 ";
+solve custo_transporte;     # Resolver a funcao objetivo
+expand > Revision.dat;
+
+# Imprimir as variaveis
+display w;
+#display y;
+#display x;
+display z;
+display t;
+
+# Imprimir o resultado do modelo
+printf 'Custo mínimo de transporte: %s\n',custo_transporte;
+printf 'Distância total percorrida: %s\n',distancia_transporte;
+printf 'Tempo total do percorrido: %s\n',tempo_transporte;
+
+for {k in VEICULOS}{
+   #printf "\n\n";
+   printf 'Veículo %s:\n',k;
+	for{(i,j) in ARCOS} {
+		if x[i,j,k]== 1 && y[i,j,k]==0 && j==1 then 
+		  printf 'Retorno do no %s ao no %s com um SOC de %g e um tempo de %g \n',i,j,z[i,j,k],t[i,j,k];
+		if x[i,j,k]== 1 && y[i,j,k]==0 && j!=1 then
+		   printf 'Do no %s ao no %s transportando %d unidades. O veículo sai desse nó com um SOC %g e um tempo de %g\n',i,j,y[i,j,k],z[i,j,k],t[i,j,k];
+		if x[i,j,k]== 1 && y[i,j,k]!=0 then
+		   printf 'Do no %s ao no %s transportando %d unidades. O veículo sai desse nó com um SOC %g e um tempo de %g\n',i,j,y[i,j,k],z[i,j,k],t[i,j,k];
+    }
+}
+
