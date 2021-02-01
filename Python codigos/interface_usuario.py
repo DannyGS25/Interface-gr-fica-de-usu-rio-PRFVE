@@ -164,7 +164,10 @@ def modelo():
     m = ampl.getParameter('m')    # Número de nós
     n = ampl.getParameter('n')    # Número de veículos
     s = ampl.getParameter('s')    # Número de estações de carregamento
-    M = ampl.getParameter('M')    # Número de nós
+    M = ampl.getParameter('M')    # Minutos na estação de carregamento
+    alpha = ampl.getParameter('alpha')  # Limite superior do estado de carga
+    beta = ampl.getParameter('beta')    # Limite inferior do estado de carga
+    consumo = ampl.getParameter('consumo')  # Consumo de energia por quilômetro percorrido
     capacidade_dep = ampl.getParameter('capacidade_dep')  # Capacidade do depósito
     capacidade_vei = ampl.getParameter('capacidade_vei')  # Capacidade veículos
     SOC_max = ampl.getParameter('SOC_max')                # SOC max bateria
@@ -184,7 +187,9 @@ def modelo():
     m.setValues([int(e_0.get())+int(e_3.get())]) # Valor do número de n
     n.setValues([int(e_2.get())])                # Valor de veículos
     s.setValues([int(e_3.get())])                # Valor de estações  
-    M.setValues([1246])                # Valor de estações  
+    M.setValues([1246])                          # Valor de minutos de carga na estação  
+    alpha.setValues([0.8])                       # Valor do limite superior do estado de carga
+    beta.setValues([0.2])                        # Valor do limite inferior do estado de carga
     capacidade_dep.setValues([int(e_4.get())])   # Valor de capacidade
     
     # Adicionar as estações de carregamento
@@ -203,6 +208,10 @@ def modelo():
     # Valores da velocidade da carga das baterias dos veículos
     for i in range(1,velocidad_carga.numInstances()+1):
         velocidad_carga[i] = int(e_7.get())
+    
+    # Consumo de energia por quilômetro percorrido dos veículos
+    for i in range(1,consumo.numInstances()+1):
+        consumo[i] = 1
     
     # Valores de demanda de mercadorias dos clientes
     for i in range(1,demanda.numInstances()+1):
