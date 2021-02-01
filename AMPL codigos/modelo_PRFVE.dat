@@ -1,40 +1,53 @@
 # Quantidade de nos
 param m := 7;
 
-#Quantidade de veiculos
+# Quantidade de veiculos
 param n := 2;
 
-#Quantidade de estacoes de carregamento
+# Quantidade de estacoes de carregamento
 param s := 2;
 
-#Horas de carga
-param M := 1000;
+# Horas de carga numa estação
+param M := 1440;
 
-# Capacidade do deposito
+# Limite superior do estado de carga
+param alpha := 0.8;
+
+# Limite inferior do estado de carga
+param beta := 0.2;
+
+# Capacidade de mercadorias do deposito
 param capacidade_dep := 15;
 
-# Capacidade veiculos
+# Capacidade de mercadorias dos veiculos
 param capacidade_vei:=
           1  8
           2  7
           3  6
           ;
 
-# Capacidade veiculos
+# Capacidade da bateria dos veiculos
 param SOC_max := 
           1  14
           2  12
           3  12
           ;
-          
+
+# Velocidade de carga da bateria
 param velocidad_carga:=
 1 1
 2 1
 3 1
 ;
-         
 
-# Demanda pelos nos
+# Consumo de energia por quilômetro percorrido
+param consumo:=
+1 1
+2 1
+3 1
+;
+
+# Demanda de mercadorias pelos nós
 param demanda:=
 1	0
 2	4
@@ -45,7 +58,7 @@ param demanda:=
 7	0
 ;
 
-# Demanda pelos nos
+# Serviço de atendimento pelos nós
 param servico:=
 1	0  
 2	6 
@@ -56,7 +69,7 @@ param servico:=
 7   0
 ;
 
-# Demanda pelos nos
+# Inicio da janela de tempo em cada nó 
 param inicio:=
 1	0
 2	2
@@ -67,7 +80,7 @@ param inicio:=
 7	0
 ;
 
-# Demanda pelos nos
+# Fim da janela de tempo em cada nó
 param ultimo:=
 1	40
 2	15
@@ -77,6 +90,7 @@ param ultimo:=
 6	40	
 7	40
 ;
+
 # Custo de transporte para cada arco
 param: ARCOS: custo distancia tempo:=   
 1	2	8.4	2.8	2.8
