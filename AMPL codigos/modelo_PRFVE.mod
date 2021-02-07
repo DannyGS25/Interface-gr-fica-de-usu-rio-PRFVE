@@ -50,6 +50,7 @@ minimize tempo_transporte:
 #################################################################
 #Restrições com os arcos
 
+
 subject to arcos_saida {j in CLIENTES}: 
 	sum{k in VEICULOS, (i,j) in ARCOS} x[i,j,k] =1;
 

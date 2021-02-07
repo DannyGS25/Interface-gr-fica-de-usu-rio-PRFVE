@@ -91,6 +91,8 @@ param ultimo:=
 7	40
 ;
 
+
+
 # Custo de transporte para cada arco
 param: ARCOS: custo distancia tempo:=   
 1	2	8.4	2.8	2.8
@@ -136,4 +138,28 @@ param: ARCOS: custo distancia tempo:=
 7	5	6	2	2
 7	6	9.9	3.3	3.3
 ;
+
+# Fixar em 0 os arcos entre estações de carregamento
+for{k in VEICULOS}{	
+	for{i in ESTACOES, j in ESTACOES: i != j} {
+		fix y[i,j,k] := 0;
+		fix z[i,j,k] := 0;
+		fix t[i,j,k] := 0;
+		fix x[i,j,k] := 0;
+		}
+}
+
+# Fixar em 0 os arcos do depósito a uma estação de carregamento 
+for{k in VEICULOS}{	
+	for{i in ESTACOES} {
+		fix y[1,i,k] := 0;
+		fix z[1,i,k] := 0;
+		fix t[1,i,k] := 0;
+		fix x[1,i,k] := 0;
+		fix y[i,1,k] := 0;
+		fix z[i,1,k] := 0;
+		fix t[i,1,k] := 0;
+		fix x[i,1,k] := 0;
+		}
+}
         
