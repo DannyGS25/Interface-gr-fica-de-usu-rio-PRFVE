@@ -1,0 +1,6 @@
+Recharging station position:
+
+Type  x      y       demand  ReadyTime  DueDate  ServiceTime  
+1     44.0   40.0    0.0     0.0        1236.0    0.0
+2     22.5   70.0    0.0     0.0        1236.0    0.0
+3     61.5   72.5    0.0     0.0        1236.0    0.0
